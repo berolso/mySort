@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-import { fetchPost, axiosPost } from "./helpers";
+import { axiosPost } from "./helpers";
 
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 
-export default function CustomizedInputBase({setData, setOpen }) {
+export default function CustomizedInputBase({ setResponse, setOpen }) {
   const [sheetUrl, setSheetUrl] = useState(
     "https://docs.google.com/spreadsheets/d/1uaIp8Dz__jJe3uU4dFXgp8kiv-3CxCYB48lFBGolor4/edit#gid=0"
   );
@@ -20,7 +20,7 @@ export default function CustomizedInputBase({setData, setOpen }) {
     evt.preventDefault();
     const res = await axiosPost(sheetUrl);
     // const res = await fetchPost(sheetUrl)
-    setData(res)
+    setResponse(res);
     setOpen(true);
   };
 

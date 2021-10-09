@@ -1,14 +1,22 @@
 import React from "react";
 import Slider from "./Slider";
 
-export default function Sliders() {
-  let count = new Array(3).fill('');
+export default function Sliders({ combinations }) {
   return (
     <div>
-      {console.log(count)}
-      {count.map((e, i) => (
-        // <h5>{i}</h5>
-        <Slider />
+      {combinations.map((e, i) => (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gridGap: "5%",
+          }}
+          key={e+i}
+        >
+          <h4>{e[0]}</h4>
+          <Slider combination={e}/>
+          <h4>{e[1]}</h4>
+        </div>
       ))}
     </div>
   );
