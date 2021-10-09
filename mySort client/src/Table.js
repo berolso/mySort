@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -54,7 +55,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort, headCells }) {
   useEffect(
     function addRatingsToHeader() {
       const ratingsHeader = {
-        id: '1',
+        id: "1",
         numeric: true,
         disablePadding: false,
         label: "Ratings",
@@ -105,14 +106,13 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ headCells, rows, ratings }) {
+export default function EnhancedTable({ headCells, rows, displayRows }) {
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("1");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [displayRows, setDisplayRows] = useState([]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -146,102 +146,86 @@ export default function EnhancedTable({ headCells, rows, ratings }) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  useEffect(
-    function addRatingsToRows() {
-      const ratingAddedRows = [];
-      for (let i = 0; i < rows.length; i++) {
-        const ratingAddedRow = {
-          ...[rows[i][0], ratings[1][i][1], ...rows[i].slice(1)],
-        };
-        ratingAddedRows.push(ratingAddedRow);
-      }
-      setDisplayRows(ratingAddedRows);
-    },
-    [rows, ratings]
-  );
-
-  // console.log("r", ratings);
-  // console.log("rows", rows);
-  // console.log("disrows", displayRows);
-
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-          >
-            <EnhancedTableHead
-              headCells={headCells}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={displayRows.length}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+    displayRows && (
+      <Box sx={{ width: "100%" }}>
+        <Paper sx={{ width: "100%", mb: 2 }}>
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={dense ? "small" : "medium"}
+            >
+              <EnhancedTableHead
+                headCells={headCells}
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={displayRows.length}
+              />
+              <TableBody>
+                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(displayRows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  // const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow key={labelId} hover>
-                      {Object.values(row).map((e, i) =>
-                        i === 0 ? (
-                          <TableCell
-                            component="th"
-                            id={labelId + i}
-                            scope="row"
-                            // padding="5px"
-                            key={labelId + i}
-                          >
-                            {e}
-                          </TableCell>
-                        ) : (
-                          <TableCell
-                            align="right"
-                            id={labelId + i}
-                            key={labelId + i}
-                          >
-                            {e}
-                          </TableCell>
-                        )
-                      )}
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={displayRows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+                {stableSort(displayRows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    // const isItemSelected = isSelected(row.name);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+                      <TableRow key={labelId} hover>
+                        {Object.values(row).map((e, i) =>
+                          i === 0 ? (
+                            <TableCell
+                              component="th"
+                              id={labelId + i}
+                              scope="row"
+                              // padding="5px"
+                              key={labelId + i}
+                            >
+                              {e}
+                            </TableCell>
+                          ) : (
+                            <TableCell
+                              align="right"
+                              id={labelId + i}
+                              key={labelId + i}
+                            >
+                              {e}
+                            </TableCell>
+                          )
+                        )}
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={displayRows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+        <FormControlLabel
+          control={<Switch checked={dense} onChange={handleChangeDense} />}
+          label="Dense padding"
         />
-      </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
-    </Box>
+      </Box>
+    )
   );
 }

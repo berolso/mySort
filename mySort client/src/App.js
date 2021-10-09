@@ -8,6 +8,8 @@ import Alert from "./Alert";
 import Calibrate from "./Calibrate";
 import useMakeCombos from "./useMakeCombos";
 import useCalculateRatings from "./useCalculateRatings";
+import useCalculateAvgRating from "./useCalculateAvgRatings";
+import useCalculateAdjustments from "./useCalculateAdjustments";
 
 function App() {
   const [response, setResponse] = useState([]);
@@ -16,7 +18,10 @@ function App() {
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([]);
   const [combinations, makeCombos] = useMakeCombos();
-  const [ratings, makeRatings] = useCalculateRatings();
+  const [ratings, calculateRatings] = useCalculateRatings();
+  const [displayRows, setDisplayRows] = useState([]);
+  const [avgRatings, calculateAvgRatings] = useCalculateAvgRating();
+  const [adjustments, calculateAdjustments] = useCalculateAdjustments();
 
   useEffect(
     function parseAPIdata() {
@@ -77,17 +82,45 @@ function App() {
   useEffect(() => {
     makeCombos(headCells);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headCells, columns]);
+  }, [headCells]);
 
   useEffect(() => {
-    makeRatings(columns);
+    calculateRatings(columns);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns]);
 
+  useEffect(() => {
+    // calculateAvgRatings();
+    ratings.length && calculateAvgRatings(ratings);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ratings]);
+
+  useEffect(
+    function addRatingsToRows() {
+      const ratingAddedRows = [];
+      for (let i = 0; i < rows.length; i++) {
+        const ratingAddedRow = {
+          ...[rows[i][0], avgRatings[i], ...rows[i].slice(1)],
+        };
+        ratingAddedRows.push(ratingAddedRow);
+      }
+      setDisplayRows(ratingAddedRows);
+    },
+    [rows, avgRatings]
+  );
+
+  useEffect(() => {
+    calculateAdjustments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [adjustments]);
+
   // console.log("head", headCells);
-  // console.log("row", rows);
+  console.log("row", rows);
   // console.log("col", columns);
-  console.log("r", ratings);
+  console.log("ratings", ratings);
+  console.log("avg ratings", avgRatings);
+  // console.log("combinations", combinations);
+  console.log("displayRows", displayRows);
 
   return (
     <div className="App">
@@ -103,7 +136,12 @@ function App() {
       <Input setResponse={setResponse} setOpen={setOpen} />
       <Calibrate combinations={combinations} />
       {headCells.length && rows.length && ratings.length ? (
-        <Table headCells={headCells} rows={rows} ratings={ratings} />
+        <Table
+          headCells={headCells}
+          rows={rows}
+          ratings={ratings}
+          displayRows={displayRows}
+        />
       ) : (
         "load sheets url"
       )}
