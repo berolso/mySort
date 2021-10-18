@@ -20,6 +20,9 @@ export default function CustomizedInputBase({ setResponse, setOpen }) {
     evt.preventDefault();
     const res = await axiosPost(sheetUrl);
     // const res = await fetchPost(sheetUrl)
+    // console.log(res.data)
+    // const data = localStorage.mySorts
+    // const res = JSON.parse(data)
     setResponse(res);
     setOpen(true);
   };

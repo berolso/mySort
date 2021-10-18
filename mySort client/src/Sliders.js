@@ -1,21 +1,33 @@
 import React from "react";
 import Slider from "./Slider";
 
-export default function Sliders({ combinations }) {
+export default function Sliders({
+  comparisons,
+  comparisonValues,
+  setComparisonValues,
+  calculatePercents,
+}) {
   return (
     <div>
-      {combinations.map((e, i) => (
+      {comparisons.map((e, i) => (
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr",
             gridGap: "5%",
           }}
-          key={e+i}
+          key={e + i}
         >
-          <h4>{e[0]}</h4>
-          <Slider combination={e}/>
-          <h4>{e[1]}</h4>
+          <h4>{e.left.label}</h4>
+          <Slider
+            idx={i}
+            comparisonValues={comparisonValues}
+            setComparisonValues={setComparisonValues}
+            calculatePercents={calculatePercents}
+            leftHeadIndex = {e.left.headIndex}
+            rightHeadIndex = {e.right.headIndex}
+          />
+          <h4>{e.right.label}</h4>
         </div>
       ))}
     </div>

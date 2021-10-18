@@ -8,7 +8,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function TransitionsModal({ combinations }) {
+export default function SlidersDialog({
+  comparisons,
+  comparisonValues,
+  setComparisonValues,
+  calculatePercents,
+}) {
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
 
@@ -33,8 +38,10 @@ export default function TransitionsModal({ combinations }) {
 
   return (
     <div>
-      <Button onClick={handleClickOpen("paper")}>scroll=paper</Button>
-      <Button onClick={handleClickOpen("body")}>scroll=body</Button>
+      <Button onClick={handleClickOpen("paper")}>
+        Calibrate Rating
+      </Button>
+      {/* <Button onClick={handleClickOpen("body")}>scroll=body</Button> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -42,12 +49,19 @@ export default function TransitionsModal({ combinations }) {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
-        <DialogContent dividers={scroll === "paper"}>
-          <Typography id="transition-modal-title" variant="h6" component="h2">
-            Direct Comparisons
-          </Typography>
-          <Sliders combinations={combinations} />
+        <DialogTitle id="scroll-dialog-title"> Direct Comparisons</DialogTitle>
+        <DialogContent dividers={scroll === "paper"}> ''
+          <Typography
+            id="transition-modal-title"
+            variant="h6"
+            component="h2"
+          ></Typography>
+          <Sliders
+            comparisons={comparisons}
+            comparisonValues={comparisonValues}
+            setComparisonValues={setComparisonValues}
+            calculatePercents={calculatePercents}
+          />
           <Typography id="transition-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
           </Typography>

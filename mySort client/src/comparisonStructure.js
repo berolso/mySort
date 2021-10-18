@@ -51,11 +51,11 @@ const ratings = [
 ];
 
 const avgRatings = [
-  330.03999999999996, 676.4000000000001, 313.26, 168.14, 410.43999999999994,
-  440.41999999999996, 265.52, 311.36, 630.34, 398, 327.86, 524.8,
-  502.96000000000004,
+  33, 67.64, 31.33, 16.81, 41.04, 44.04, 26.55, 31.14, 63.03, 39.8, 32.79,
+  52.48, 50.3,
 ];
 
+// for local storage
 const mySorts = {
   sheetID: {
     headCells: [],
@@ -65,3 +65,18 @@ const mySorts = {
     sortRank: {},
   },
 };
+
+const displayMatrix = [
+  {
+    0: { value: "Cupcake", rating: 10, adjustment: 1 },
+    1: { value: 33, rating: 10, adjustment: 1 },
+    2: { value: 305, rating: 10, adjustment: 1 },
+    3: { value: 3.7, rating: 10, adjustment: 1 },
+    4: { value: 67, rating: 10, adjustment: 1 },
+    5: { value: 4.3, rating: 10, adjustment: 1 },
+    6: { value: 1, rating: 10, adjustment: 1 },
+  },
+  // ...rows
+];
+
+

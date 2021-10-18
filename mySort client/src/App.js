@@ -6,23 +6,16 @@ import Input from "./Input";
 import Table from "./Table";
 import Alert from "./Alert";
 import Calibrate from "./Calibrate";
-import useMakeCombos from "./useMakeCombos";
+import useMakeComparisons from "./useMakeComparisons";
 import useCalculateRatings from "./useCalculateRatings";
 import useCalculateAvgRating from "./useCalculateAvgRatings";
-import useCalculateAdjustments from "./useCalculateAdjustments";
+import useSetComparisonValues from "./useSetComparisonValues";
+import useCalculatePercents from "./useCalculatePercents";
 
 function App() {
-  const [response, setResponse] = useState([]);
   const [open, setOpen] = useState(false);
-  const [headCells, setHeadCells] = useState([]);
-  const [rows, setRows] = useState([]);
-  const [columns, setColumns] = useState([]);
-  const [combinations, makeCombos] = useMakeCombos();
-  const [ratings, calculateRatings] = useCalculateRatings();
-  const [displayRows, setDisplayRows] = useState([]);
-  const [avgRatings, calculateAvgRatings] = useCalculateAvgRating();
-  const [adjustments, calculateAdjustments] = useCalculateAdjustments();
 
+  const [response, setResponse] = useState([]);
   useEffect(
     function parseAPIdata() {
       const parseHeadCells = (data) => {
@@ -62,6 +55,8 @@ function App() {
     [response]
   );
 
+  const [headCells, setHeadCells] = useState([]);
+  const [rows, setRows] = useState([]);
   useEffect(
     function createColumns() {
       const parseColumns = (headCells, rows) => {
@@ -80,21 +75,26 @@ function App() {
   );
 
   useEffect(() => {
-    makeCombos(headCells);
+    makeComparisons(headCells);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headCells]);
 
+  const [columns, setColumns] = useState([]);
+  const [comparisons, makeComparisons] = useMakeComparisons();
+  const [comparisonValues, setComparisonValues] = useSetComparisonValues();
+  const [percents, calculatePercents] = useCalculatePercents();
   useEffect(() => {
-    calculateRatings(columns);
+    calculateRatings(columns, percents);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns]);
+  }, [columns, percents]);
 
+  const [ratings, calculateRatings] = useCalculateRatings();
   useEffect(() => {
-    // calculateAvgRatings();
     ratings.length && calculateAvgRatings(ratings);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ratings]);
 
+  const [avgRatings, calculateAvgRatings] = useCalculateAvgRating();
   useEffect(
     function addRatingsToRows() {
       const ratingAddedRows = [];
@@ -109,18 +109,17 @@ function App() {
     [rows, avgRatings]
   );
 
-  useEffect(() => {
-    calculateAdjustments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [adjustments]);
+  const [displayRows, setDisplayRows] = useState([]);
 
   // console.log("head", headCells);
-  console.log("row", rows);
+  // console.log("comparisons", comparisons);
+  // console.log("comparisonvalues", comparisonValues);
+  // console.log("row", rows);
   // console.log("col", columns);
-  console.log("ratings", ratings);
-  console.log("avg ratings", avgRatings);
-  // console.log("combinations", combinations);
-  console.log("displayRows", displayRows);
+  // console.log('percents',percents)
+  // console.log("ratings", ratings[1]);
+  // console.log("avg ratings", avgRatings);
+  // console.log("displayRows", displayRows);
 
   return (
     <div className="App">
@@ -134,7 +133,12 @@ function App() {
         />
       }
       <Input setResponse={setResponse} setOpen={setOpen} />
-      <Calibrate combinations={combinations} />
+      <Calibrate
+        comparisons={comparisons}
+        comparisonValues={comparisonValues}
+        setComparisonValues={setComparisonValues}
+        calculatePercents={calculatePercents}
+      />
       {headCells.length && rows.length && ratings.length ? (
         <Table
           headCells={headCells}
