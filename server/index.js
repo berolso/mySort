@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.use(express.static(path.resolve(__dirname, '../mySort client/build')))
+app.use(express.static(path.resolve(__dirname, '../mySortClient/build')))
 
 app.use(express.json());
 
@@ -51,7 +51,7 @@ app.post("/api", async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../mySort client/build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../mySortClient/build', 'index.html'));
 });
 
 app.listen(PORT, () => {
