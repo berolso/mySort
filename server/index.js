@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const path = require('path');
 
 require("dotenv").config();
 const SHEETS_API_KEY = process.env.SHEETS_API_KEY;
@@ -7,6 +8,8 @@ const SHEETS_API_KEY = process.env.SHEETS_API_KEY;
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+app.use(express.static(path.resolve(__dirname, '../mySort client/build')))
 
 app.use(express.json());
 
@@ -45,6 +48,10 @@ app.post("/api", async (req, res) => {
       // message: e.response.data.error.message,
     });
   }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../mySort client/build', 'index.html'));
 });
 
 app.listen(PORT, () => {
