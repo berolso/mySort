@@ -43,6 +43,7 @@ app.post("/api", async (req, res) => {
       data: response.data.sheets[0].data[0].rowData,
     });
   } catch (e) {
+    console.log('*response e *',e)
     res.json({
       alertSeverity: "error",
       message: 'Make sure url is correct and spreadsheet is viewable to public',
