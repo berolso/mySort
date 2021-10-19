@@ -36,14 +36,20 @@ app.post("/api", async (req, res) => {
   };
   try {
     const response = await axios(config);
-    console.log('*response*',response)
+    // console.log('*response*',response.data)
     res.json({
       alertSeverity: "success",
       message: url,
       data: response.data.sheets[0].data[0].rowData,
     });
   } catch (e) {
-    console.log('*response e *',e)
+    console.log('*response e *',)
+    console.log('*response e *',)
+    console.log('*response e *',)
+    console.log('*response e *',e.response)
+    console.log('*response e *',)
+    console.log('*response e *',e.response.data.error)
+    console.log('*response e *',)
     res.json({
       alertSeverity: "error",
       message: 'Make sure url is correct and spreadsheet is viewable to public',
