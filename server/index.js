@@ -36,6 +36,7 @@ app.post("/api", async (req, res) => {
   };
   try {
     const response = await axios(config);
+    console.log('*response*',response)
     res.json({
       alertSeverity: "success",
       message: url,
