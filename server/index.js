@@ -25,7 +25,7 @@ app.post("/api", async (req, res) => {
 
   const spreadsheetID = url.substring(
     url.indexOf("/d/") + 3,
-    url.lastIndexOf("/edit#gid")
+    url.lastIndexOf("/edit")
   );
 
   console.log("di", spreadsheetID);

@@ -1,5 +1,6 @@
 import React from "react";
 import Slider from "./Slider";
+import Typography from "@mui/material/Typography";
 
 export default function Sliders({
   comparisons,
@@ -9,6 +10,9 @@ export default function Sliders({
 }) {
   return (
     <div>
+      <Typography id="transition-modal-title" variant="h6" component="h2">
+        Add wight to direct 1:1 comparisons
+      </Typography>
       {comparisons.map((e, i) => (
         <div
           style={{
@@ -24,8 +28,8 @@ export default function Sliders({
             comparisonValues={comparisonValues}
             setComparisonValues={setComparisonValues}
             calculatePercents={calculatePercents}
-            leftHeadIndex = {e.left.headIndex}
-            rightHeadIndex = {e.right.headIndex}
+            leftHeadIndex={e.left.headIndex}
+            rightHeadIndex={e.right.headIndex}
           />
           <h4>{e.right.label}</h4>
         </div>

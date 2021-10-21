@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Sliders from "./Sliders";
+import Switches from "./Switches";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,10 +9,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 export default function SlidersDialog({
+  headCells,
   comparisons,
   comparisonValues,
   setComparisonValues,
   calculatePercents,
+  preferHigher,
+  setPreferHigher,
 }) {
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
@@ -38,11 +41,17 @@ export default function SlidersDialog({
 
   return (
     <div>
-      <Button onClick={handleClickOpen("paper")}>
-        Calibrate Rating
-      </Button>
+      <Button onClick={handleClickOpen("paper")}>Calibrate Rating</Button>
       {/* <Button onClick={handleClickOpen("body")}>scroll=body</Button> */}
       <Dialog
+        PaperProps={{
+          style: {
+            // position: 'absolute',
+            // left: '10%',
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            // boxShadow: "none",
+          },
+        }}
         open={open}
         onClose={handleClose}
         scroll={scroll}
@@ -50,22 +59,27 @@ export default function SlidersDialog({
         aria-describedby="scroll-dialog-description"
       >
         <DialogTitle id="scroll-dialog-title"> Direct Comparisons</DialogTitle>
-        <DialogContent dividers={scroll === "paper"}> ''
-          <Typography
-            id="transition-modal-title"
-            variant="h6"
-            component="h2"
-          ></Typography>
-          <Sliders
-            comparisons={comparisons}
-            comparisonValues={comparisonValues}
-            setComparisonValues={setComparisonValues}
-            calculatePercents={calculatePercents}
-          />
-          <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </DialogContent>
+
+        {headCells.length > 0 && (
+          <DialogContent dividers={scroll === "paper"}>
+            <Switches
+              headCells={headCells}
+              comparisons={comparisons}
+              comparisonValues={comparisonValues}
+              setComparisonValues={setComparisonValues}
+              calculatePercents={calculatePercents}
+              preferHigher={preferHigher}
+              setPreferHigher={setPreferHigher}
+            />
+            <br />
+            <Sliders
+              comparisons={comparisons}
+              comparisonValues={comparisonValues}
+              setComparisonValues={setComparisonValues}
+              calculatePercents={calculatePercents}
+            />
+          </DialogContent>
+        )}
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleClose}>Subscribe</Button>

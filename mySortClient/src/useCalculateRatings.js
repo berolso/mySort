@@ -1,13 +1,16 @@
 import { useState } from "react";
 
 export default function useCalculateRatings() {
-
   const [ratings, setRatings] = useState([]);
 
-  function calculateRatings(columns, percents) {
-    
-    function convertToRating(n, max, min) {
-      return (((n - min) / (max - min)) * 100).toFixed(2);
+  function calculateRatings(columns, percents, headCells, preferHigher) {
+    function convertToRating(n, max, min, higher = true) {
+      const rating = (((n - min) / (max - min)) * 100).toFixed(2);
+      if (higher) {
+        return rating;
+      } else {
+        return 100 - rating;
+      }
     }
 
     function calculateAdjustment(obj) {
@@ -30,16 +33,21 @@ export default function useCalculateRatings() {
     }
 
     for (let [key, obj] of Object.entries(percents)) {
-      categoriesArray[key-1] = calculateAdjustment(Object.values(obj))
+      categoriesArray[key - 1] = calculateAdjustment(Object.values(obj));
     }
-    
+
     const ratingsArray = [];
     for (let [idx, col] of Object.entries(columns.slice(1))) {
       const max = Math.max(...col);
       const min = Math.min(...col);
       const arr = [];
       for (let item of col) {
-        const rating = convertToRating(item, max, min);
+        const rating = convertToRating(
+          item,
+          max,
+          min,
+          preferHigher[headCells[+idx+1+''].label]
+        );
         arr.push({
           value: item,
           rating: +rating,

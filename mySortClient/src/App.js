@@ -16,6 +16,7 @@ function App() {
   const [open, setOpen] = useState(false);
 
   const [response, setResponse] = useState([]);
+
   useEffect(
     function parseAPIdata() {
       const parseHeadCells = (data) => {
@@ -83,10 +84,12 @@ function App() {
   const [comparisons, makeComparisons] = useMakeComparisons();
   const [comparisonValues, setComparisonValues] = useSetComparisonValues();
   const [percents, calculatePercents] = useCalculatePercents();
+  const [preferHigher, setPreferHigher] = useState({});
+
   useEffect(() => {
-    calculateRatings(columns, percents);
+    calculateRatings(columns, percents, headCells, preferHigher);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns, percents]);
+  }, [columns, percents, headCells, preferHigher]);
 
   const [ratings, calculateRatings] = useCalculateRatings();
   useEffect(() => {
@@ -116,8 +119,9 @@ function App() {
   // console.log("comparisonvalues", comparisonValues);
   // console.log("row", rows);
   // console.log("col", columns);
-  // console.log('percents',percents)
-  // console.log("ratings", ratings[1]);
+  // console.log("percents", percents);
+  // console.log("preferHigher", preferHigher);
+  // console.log("ratings", ratings);
   // console.log("avg ratings", avgRatings);
   // console.log("displayRows", displayRows);
 
@@ -134,10 +138,13 @@ function App() {
       }
       <Input setResponse={setResponse} setOpen={setOpen} />
       <Calibrate
+        headCells={headCells}
         comparisons={comparisons}
         comparisonValues={comparisonValues}
         setComparisonValues={setComparisonValues}
         calculatePercents={calculatePercents}
+        preferHigher={preferHigher}
+        setPreferHigher={setPreferHigher}
       />
       {headCells.length && rows.length && ratings.length ? (
         <Table

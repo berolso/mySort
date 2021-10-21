@@ -40,7 +40,7 @@ export default function CustomizedInputBase({ setResponse, setOpen }) {
         sx={{ ml: 1, flex: 1 }}
         label="Required"
         required
-        placeholder="Google Sheets url"
+        placeholder="Google Sheets url (Shared Link)"
         inputProps={{ "aria-label": "Google sheets url" }}
         value={sheetUrl}
         onChange={handleChange}
