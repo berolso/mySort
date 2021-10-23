@@ -14,8 +14,8 @@ import useCalculatePercents from "./useCalculatePercents";
 
 function App() {
   const [open, setOpen] = useState(false);
-
   const [response, setResponse] = useState([]);
+  const [dataReady, setDataReady] = useState(false);
 
   useEffect(
     function parseAPIdata() {
@@ -100,20 +100,50 @@ function App() {
   const [avgRatings, calculateAvgRatings] = useCalculateAvgRating();
   useEffect(
     function addRatingsToRows() {
-      const ratingAddedRows = [];
-      for (let i = 0; i < rows.length; i++) {
-        const ratingAddedRow = {
-          ...[rows[i][0], avgRatings[i], ...rows[i].slice(1)],
-        };
-        ratingAddedRows.push(ratingAddedRow);
+      if (avgRatings.length) {
+        const ratingAddedRows = [];
+        for (let i = 0; i < rows.length; i++) {
+          const ratingAddedRow = {
+            ...[rows[i][0], avgRatings[i], ...rows[i].slice(1)],
+          };
+          ratingAddedRows.push(ratingAddedRow);
+        }
+
+        const testarr = [...ratingAddedRows];
+        for (let row = 0; row < rows.length; row++) {
+          for (let col = 0; col < ratings.length + 2; col++) {
+            // format first column
+            if (col === 0) {
+              testarr[row] = {
+                ...testarr[row],
+                [col]: { value: rows[row][col] },
+              };
+              // format second column (overall rating)
+            } else if (col === 1) {
+              testarr[row] = {
+                ...testarr[row],
+                [col]: { value: ratingAddedRows[row][col] },
+              };
+              // format all columns
+            } else if (col > 1) {
+              testarr[row] = {
+                ...testarr[row],
+                [col]: ratings[col - 2][row],
+              };
+            }
+          }
+        }
+        // setDisplayRows(ratingAddedRows);
+        setDisplayRows(testarr);
+        setDataReady(true);
       }
-      setDisplayRows(ratingAddedRows);
     },
-    [rows, avgRatings]
+    [avgRatings, ratings, rows]
   );
 
   const [displayRows, setDisplayRows] = useState([]);
 
+  console.log("ResData", response.data);
   // console.log("head", headCells);
   // console.log("comparisons", comparisons);
   // console.log("comparisonvalues", comparisonValues);
@@ -123,11 +153,20 @@ function App() {
   // console.log("preferHigher", preferHigher);
   // console.log("ratings", ratings);
   // console.log("avg ratings", avgRatings);
-  // console.log("displayRows", displayRows);
+  console.log("displayRows", displayRows);
+
+  const clearData = () => {
+    setResponse([]);
+    setColumns([]);
+    setRows([]);
+    // calculateAvgRatings([])
+    setDataReady(false);
+  };
 
   return (
     <div className="App">
       <h1>mySort</h1>
+      <h5>Comparative analysis tool for google sheets data sets</h5>
       {
         <Alert
           message={response.message}
@@ -136,23 +175,32 @@ function App() {
           setOpen={setOpen}
         />
       }
-      <Input setResponse={setResponse} setOpen={setOpen} />
-      <Calibrate
-        headCells={headCells}
-        comparisons={comparisons}
-        comparisonValues={comparisonValues}
-        setComparisonValues={setComparisonValues}
-        calculatePercents={calculatePercents}
-        preferHigher={preferHigher}
-        setPreferHigher={setPreferHigher}
-      />
-      {headCells.length && rows.length && ratings.length ? (
-        <Table
-          headCells={headCells}
-          rows={rows}
-          ratings={ratings}
-          displayRows={displayRows}
+      <div style={{ justifyContent: "center", display: "flex" }}>
+        <Input
+          setResponse={setResponse}
+          setOpen={setOpen}
+          clearData={clearData}
         />
+      </div>
+      {/* {headCells.length && rows.length && ratings.length ? ( */}
+      {dataReady ? (
+        <div style={{ margin: "1%" }}>
+          <Calibrate
+            headCells={headCells}
+            comparisons={comparisons}
+            comparisonValues={comparisonValues}
+            setComparisonValues={setComparisonValues}
+            calculatePercents={calculatePercents}
+            preferHigher={preferHigher}
+            setPreferHigher={setPreferHigher}
+          />
+          <Table
+            headCells={headCells}
+            rows={rows}
+            ratings={ratings}
+            displayRows={displayRows}
+          />
+        </div>
       ) : (
         "load sheets url"
       )}

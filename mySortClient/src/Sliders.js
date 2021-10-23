@@ -11,7 +11,7 @@ export default function Sliders({
   return (
     <div>
       <Typography id="transition-modal-title" variant="h6" component="h2">
-        Add wight to direct 1:1 comparisons
+        Add weight to direct 1:1 comparisons
       </Typography>
       {comparisons.map((e, i) => (
         <div

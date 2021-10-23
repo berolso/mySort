@@ -16,10 +16,11 @@ import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  // compare by value key
+  if (b[orderBy].value < a[orderBy].value) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (b[orderBy].value > a[orderBy].value) {
     return 1;
   }
   return 0;
@@ -184,15 +185,29 @@ export default function EnhancedTable({ headCells, rows, displayRows }) {
                               // padding="5px"
                               key={labelId + i}
                             >
-                              {e}
+                              {e.value}
                             </TableCell>
                           ) : (
                             <TableCell
                               align="right"
                               id={labelId + i}
                               key={labelId + i}
+                              style={{
+                                color: `hsl(${e.rating * 1}, 100%, 35%)`,
+                                // color: "black",
+                              }}
                             >
-                              {e}
+                              <span
+                                style={{
+                                  // color: `hsl(${e.rating * 1},  100%, 40%)`,
+                                  // color: "black",
+                                  fontSize: "0.5em",
+                                }}
+                              >
+                                {/* {e.rating}&nbsp; */}
+                              </span>
+
+                              <span>{e.value}</span>
                             </TableCell>
                           )
                         )}
@@ -212,7 +227,7 @@ export default function EnhancedTable({ headCells, rows, displayRows }) {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 10, 25, 50, 100, 250]}
             component="div"
             count={displayRows.length}
             rowsPerPage={rowsPerPage}

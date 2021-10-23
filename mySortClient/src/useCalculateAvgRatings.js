@@ -3,52 +3,8 @@ import { useState } from "react";
 export default function useCalculateAvgRatings() {
   const [avgRatings, setAvgRatings] = useState([]);
   const scale = 100;
-  const sample = [
-    [
-      { adjustment: 1, rating: 10, value: 10 },
-      { adjustment: 1, rating: 10, value: 8.16 },
-      { adjustment: 1, rating: 10, value: 2.87 },
-      { adjustment: 1, rating: 10, value: 0 },
-      { adjustment: 1, rating: 10, value: 5.49 },
-    ],
-    [
-      { adjustment: 1, rating: 10, value: 10 },
-      { adjustment: 1, rating: 10, value: 8.16 },
-      { adjustment: 1, rating: 10, value: 2.87 },
-      { adjustment: 1, rating: 10, value: 0 },
-      { adjustment: 1, rating: 10, value: 5.49 },
-    ],
-    [
-      { adjustment: 1, rating: 10, value: 10 },
-      { adjustment: 1, rating: 10, value: 8.16 },
-      { adjustment: 1, rating: 10, value: 2.87 },
-      { adjustment: 1, rating: 10, value: 0 },
-      { adjustment: 1, rating: 10, value: 5.49 },
-    ],
-    [
-      { adjustment: 1, rating: 10, value: 10 },
-      { adjustment: 1, rating: 10, value: 8.16 },
-      { adjustment: 1, rating: 10, value: 2.87 },
-      { adjustment: 1, rating: 10, value: 0 },
-      { adjustment: 1, rating: 10, value: 5.49 },
-    ],
-    [
-      { adjustment: 1, rating: 10, value: 10 },
-      { adjustment: 1, rating: 10, value: 8.16 },
-      { adjustment: 1, rating: 10, value: 2.87 },
-      { adjustment: 1, rating: 10, value: 0 },
-      { adjustment: 1, rating: 10, value: 5.49 },
-    ],
-    [
-      { adjustment: 0.5, rating: 5, value: 5 },
-      { adjustment: 1, rating: 10, value: 8.16 },
-      { adjustment: 1, rating: 10, value: 2.87 },
-      { adjustment: 1, rating: 10, value: 0 },
-      { adjustment: 1, rating: 10, value: 5.49 },
-    ],
-  ];
 
-  function calculateAvgRatings(ratings = sample) {
+  function calculateAvgRatings(ratings) {
     const avgs = [];
     for (let row = 0; row < ratings[0].length; row++) {
       let sum = 0;
@@ -62,6 +18,5 @@ export default function useCalculateAvgRatings() {
     }
     setAvgRatings(avgs);
   }
-
   return [avgRatings, calculateAvgRatings];
 }

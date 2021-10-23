@@ -46,7 +46,7 @@ export default function useCalculateRatings() {
           item,
           max,
           min,
-          preferHigher[headCells[+idx+1+''].label]
+          preferHigher[headCells[+idx + 1 + ""].label]
         );
         arr.push({
           value: item,

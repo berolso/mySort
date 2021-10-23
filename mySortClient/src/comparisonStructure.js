@@ -66,17 +66,22 @@ const mySorts = {
   },
 };
 
-const displayMatrix = [
-  {
-    0: { value: "Cupcake", rating: 10, adjustment: 1 },
-    1: { value: 33, rating: 10, adjustment: 1 },
-    2: { value: 305, rating: 10, adjustment: 1 },
-    3: { value: 3.7, rating: 10, adjustment: 1 },
-    4: { value: 67, rating: 10, adjustment: 1 },
-    5: { value: 4.3, rating: 10, adjustment: 1 },
-    6: { value: 1, rating: 10, adjustment: 1 },
-  },
-  // ...rows
-];
+const displayRows = {
+  0: { value: "Cupcake" },
+  1: { value: 25.99 },
+  2: { value: 305, rating: 33.11, adjustment: 1 },
+  3: { value: 3.7, rating: 12.33, adjustment: 1 },
+  4: { value: 67, rating: 63.74, adjustment: 1 },
+  5: { value: 4.3, rating: 10.75, adjustment: 1 },
+  6: { value: 1, rating: 10, adjustment: 1 },
+};
 
-
+const oldDisplayRows = {
+  0: "Cupcake",
+  1: 25.99,
+  2: 305,
+  3: 3.7,
+  4: 67,
+  5: 4.3,
+  6: 1,
+};
