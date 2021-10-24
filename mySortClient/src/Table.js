@@ -46,7 +46,13 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function EnhancedTableHead({ order, orderBy, onRequestSort, headCells }) {
+function EnhancedTableHead({
+  order,
+  orderBy,
+  onRequestSort,
+  headCells,
+  ratings,
+}) {
   const [displayHeads, setDisplayHeads] = useState([]);
 
   const createSortHandler = (property) => (event) => {
@@ -67,7 +73,18 @@ function EnhancedTableHead({ order, orderBy, onRequestSort, headCells }) {
     [headCells]
   );
 
-  // console.log("disheads", displayHeads);
+  const ratingPercentage = (adjustment) => {
+    return (
+      <span
+        style={{
+          color: `hsl(${adjustment * 100},  100%, 20%)`,
+          fontSize: "0.75em",
+        }}
+      >
+        &nbsp;{adjustment * 100}%
+      </span>
+    );
+  };
 
   return (
     <TableHead>
@@ -84,6 +101,9 @@ function EnhancedTableHead({ order, orderBy, onRequestSort, headCells }) {
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
+              {headCell.id > 1
+                ? ratingPercentage(ratings[headCell.id - 2][0].adjustment)
+                : null}
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
@@ -107,7 +127,12 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ headCells, rows, displayRows }) {
+export default function EnhancedTable({
+  headCells,
+  rows,
+  displayRows,
+  ratings,
+}) {
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("1");
   const [selected, setSelected] = useState([]);
@@ -165,6 +190,7 @@ export default function EnhancedTable({ headCells, rows, displayRows }) {
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
                 rowCount={displayRows.length}
+                ratings={ratings}
               />
               <TableBody>
                 {/* if you don't need to support IE11, you can replace the `stableSort` call with:
