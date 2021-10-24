@@ -5,7 +5,12 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function TransitionAlerts({ message, alertSeverity, open, setOpen }) {
+export default function TransitionAlerts({
+  message,
+  alertSeverity,
+  open,
+  setOpen,
+}) {
   return (
     <Box sx={{ width: "100%" }}>
       <Collapse in={open}>
@@ -25,7 +30,13 @@ export default function TransitionAlerts({ message, alertSeverity, open, setOpen
           }
           sx={{ mb: 2 }}
         >
-          {message}
+          {alertSeverity === "success" ? (
+            <a href={message} target="_blank" rel="noreferrer">
+              {message}
+            </a>
+          ) : (
+            message
+          )}
         </Alert>
       </Collapse>
     </Box>

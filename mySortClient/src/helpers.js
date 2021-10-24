@@ -9,12 +9,11 @@ export async function axiosPost(sheetsUrl) {
     },
     data: { sheetsUrl },
   };
-  try{
+  try {
     const res = await axios(config);
     return res.data;
-  }catch(e){
-    console.log('hi')
-    return e
+  } catch (e) {
+    return e;
   }
 }
 
