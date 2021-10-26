@@ -77,11 +77,11 @@ function EnhancedTableHead({
     return (
       <span
         style={{
-          color: `hsl(${adjustment * 100},  100%, 20%)`,
+          color: `hsl(${adjustment * 100},  100%, 30%)`,
           fontSize: "0.75em",
         }}
       >
-        &nbsp;{adjustment * 100}%
+        {Math.round(adjustment * 100)}%&nbsp;
       </span>
     );
   };
@@ -101,10 +101,10 @@ function EnhancedTableHead({
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
+              {headCell.label}
               {headCell.id > 1
                 ? ratingPercentage(ratings[headCell.id - 2][0].adjustment)
                 : null}
-              {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}

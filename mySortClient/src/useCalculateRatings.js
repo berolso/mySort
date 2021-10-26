@@ -21,7 +21,7 @@ export default function useCalculateRatings() {
       );
       for (let i = 0; i < percentageArray.length; i++) {
         if (obj && obj[i] >= 0) {
-          percentageArray[i] = obj[i] / 2;
+          percentageArray[i] = (obj[i] * 2) / totalComparisons;
         }
       }
       return percentageArray.reduce((prev, curr) => prev + curr);

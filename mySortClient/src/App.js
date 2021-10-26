@@ -82,7 +82,8 @@ function App() {
 
   const [columns, setColumns] = useState([]);
   const [comparisons, makeComparisons] = useMakeComparisons();
-  const [comparisonValues, setComparisonValues] = useSetComparisonValues();
+  const [comparisonValues, setComparisonValues] =
+    useSetComparisonValues(comparisons);
   const [percents, calculatePercents] = useCalculatePercents();
   const [preferHigher, setPreferHigher] = useState({});
 
@@ -156,10 +157,6 @@ function App() {
   console.log("displayRows", displayRows);
 
   const clearData = () => {
-    setResponse([]);
-    setColumns([]);
-    setRows([]);
-    // calculateAvgRatings([])
     setDataReady(false);
   };
 

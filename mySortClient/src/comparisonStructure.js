@@ -41,6 +41,8 @@ const columns = [
 
 const combinations = [["Calories", "Fat (g)"], ["..."]];
 
+const comparisonValues = {0: 33, 2: 77, 3: 27, 4: 22, 5: 31}
+
 const ratings = [
   [
     { value: 305, rating: 40.67, adjustment: 1 },

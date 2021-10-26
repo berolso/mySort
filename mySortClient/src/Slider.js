@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 
@@ -51,41 +51,43 @@ export default function DiscreteSliderMarks({
   leftHeadIndex,
   rightHeadIndex,
 }) {
-  const [sliderValue, setSliderValue] = useState(
-    comparisonValues[idx] >= 0 ? comparisonValues[idx] : defaultValue
-  );
-  const [evtObj, setEvtObj] = useState({});
+  const [sliderDisplay, setSliderDisplay] = useState(comparisonValues[idx]);
+  const [evtTarget, setEvtTarget] = useState({});
+
+  useEffect(() => {
+    setSliderDisplay(comparisonValues[idx]);
+  }, [comparisonValues, idx]);
 
   const handleChange = (evt) => {
-    setSliderValue(evt.target.value);
-    setEvtObj(evt);
+    setSliderDisplay(evt.target.value);
+    setEvtTarget(evt.target);
   };
 
   const handleCommit = () => {
-    setComparisonValues(evtObj);
+    setComparisonValues(evtTarget);
     calculatePercents({
-      ...evtObj.target,
+      ...evtTarget,
       leftHeadIndex,
       rightHeadIndex,
-      leftPercent: (max - sliderValue) / 100,
-      rightPercent: sliderValue / 100,
+      leftPercent: (max - sliderDisplay) / 100,
+      rightPercent: sliderDisplay / 100,
     });
   };
   return (
     // <Box sx={{ width: 300 }}>
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       <Slider
         aria-label="Custom marks"
         getAriaValueText={valuetext}
         // step={.5}
         valueLabelDisplay={"auto"}
-        marks={marks(sliderValue)}
+        marks={marks(sliderDisplay)}
         min={min}
         max={max}
         scale={calculateValue}
         valueLabelFormat={valueLabelFormat}
         name={idx.toString()}
-        value={sliderValue}
+        value={sliderDisplay}
         onChangeCommitted={handleCommit}
         onChange={handleChange}
       />

@@ -22,7 +22,14 @@ export default function Sliders({
           }}
           key={e + i}
         >
-          <h5>{e.left.label}</h5>
+          <h4
+            style={{
+              marginTop: 5,
+              marginLeft: "auto",
+            }}
+          >
+            {e.left.label}
+          </h4>
           <Slider
             idx={i}
             comparisonValues={comparisonValues}
@@ -31,7 +38,13 @@ export default function Sliders({
             leftHeadIndex={e.left.headIndex}
             rightHeadIndex={e.right.headIndex}
           />
-          <h5>{e.right.label}</h5>
+          <h4
+            style={{
+              marginTop: 5,
+            }}
+          >
+            {e.right.label}
+          </h4>
         </div>
       ))}
     </div>

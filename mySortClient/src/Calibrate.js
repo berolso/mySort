@@ -30,6 +30,21 @@ export default function SlidersDialog({
     setOpen(false);
   };
 
+  const resetSliders = () => {
+    for (let i = 0; i < comparisons.length; i++) {
+      const resetObj = { name: i, value: 50 };
+      setComparisonValues(resetObj);
+
+      calculatePercents({
+        ...resetObj,
+        leftHeadIndex: comparisons[i].left.headIndex,
+        rightHeadIndex: comparisons[i].right.headIndex,
+        leftPercent: 0.5,
+        rightPercent: 0.5,
+      });
+    }
+  };
+
   const descriptionElementRef = useRef(null);
   useEffect(() => {
     if (open) {
@@ -113,9 +128,7 @@ export default function SlidersDialog({
         </DialogContent>
         <Button onClick={handleClose}>close</Button>
         <DialogActions>
-          <Button onClick={handleClose} disabled>
-            Reset
-          </Button>
+          <Button onClick={resetSliders}>Reset</Button>
           <Button onClick={handleClose} disabled>
             Save
           </Button>
