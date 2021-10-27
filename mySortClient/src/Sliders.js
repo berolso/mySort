@@ -17,19 +17,19 @@ export default function Sliders({
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "15% 50% 25%",
+            gridTemplateColumns: "24% 50% 24%",
             gridGap: "1%",
           }}
           key={e + i}
         >
-          <h4
+          <h5
             style={{
               marginTop: 5,
               marginLeft: "auto",
             }}
           >
             {e.left.label}
-          </h4>
+          </h5>
           <Slider
             idx={i}
             comparisonValues={comparisonValues}
@@ -38,13 +38,13 @@ export default function Sliders({
             leftHeadIndex={e.left.headIndex}
             rightHeadIndex={e.right.headIndex}
           />
-          <h4
+          <h5
             style={{
               marginTop: 5,
             }}
           >
             {e.right.label}
-          </h4>
+          </h5>
         </div>
       ))}
     </div>

@@ -5,6 +5,10 @@ export default function useSetComparisonValues(comparisons) {
   // get comparisons from local  or || default in component value..
   const [comparisonValues, setValues] = useState({});
 
+  function resetComparisonValues() {
+    setValues({});
+  }
+
   if (comparisonValues[0] === undefined && comparisons.length) {
     setValues(initialState);
   }
@@ -17,5 +21,5 @@ export default function useSetComparisonValues(comparisons) {
     }));
   };
 
-  return [comparisonValues, setComparisonValues];
+  return [comparisonValues, setComparisonValues, resetComparisonValues];
 }

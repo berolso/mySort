@@ -4,6 +4,10 @@ export default function useCalculateAdjustments() {
   const [percents, setPercents] = useState({});
 
   function calculatePercents(sObj) {
+    if (sObj === "clear") {
+      setPercents({});
+      return;
+    }
     // example sObj {value: 67, name: '3'(index of slider), leftHeadIndex: 1, rightHeadIndex: 5, leftPercent: 0.33, …}
     setPercents((e) => ({
       ...e,

@@ -3,6 +3,10 @@ import { useState } from "react";
 export default function useCalculateRatings() {
   const [ratings, setRatings] = useState([]);
 
+  function resetRatings() {
+    setRatings([]);
+  }
+
   function calculateRatings(columns, percents, headCells, preferHigher) {
     function convertToRating(n, max, min, higher = true) {
       const rating = (((n - min) / (max - min)) * 100).toFixed(2);
@@ -59,5 +63,5 @@ export default function useCalculateRatings() {
     setRatings(ratingsArray);
   }
 
-  return [ratings, calculateRatings];
+  return [ratings, calculateRatings, resetRatings];
 }

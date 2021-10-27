@@ -4,6 +4,10 @@ export default function useCalculateAvgRatings() {
   const [avgRatings, setAvgRatings] = useState([]);
   const scale = 100;
 
+  function resetAvgRatings() {
+    setAvgRatings([]);
+  }
+
   function calculateAvgRatings(ratings) {
     const avgs = [];
     for (let row = 0; row < ratings[0].length; row++) {
@@ -18,5 +22,5 @@ export default function useCalculateAvgRatings() {
     }
     setAvgRatings(avgs);
   }
-  return [avgRatings, calculateAvgRatings];
+  return [avgRatings, calculateAvgRatings, resetAvgRatings];
 }

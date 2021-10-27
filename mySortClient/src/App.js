@@ -84,7 +84,7 @@ function App() {
 
   const [columns, setColumns] = useState([]);
   const [comparisons, makeComparisons] = useMakeComparisons();
-  const [comparisonValues, setComparisonValues] =
+  const [comparisonValues, setComparisonValues, resetComparisonValues] =
     useSetComparisonValues(comparisons);
   const [percents, calculatePercents] = useCalculatePercents();
   const [preferHigher, setPreferHigher] = useState({});
@@ -94,13 +94,14 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns, percents, headCells, preferHigher]);
 
-  const [ratings, calculateRatings] = useCalculateRatings();
+  const [ratings, calculateRatings, resetRatings] = useCalculateRatings();
   useEffect(() => {
     ratings.length && calculateAvgRatings(ratings);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ratings]);
 
-  const [avgRatings, calculateAvgRatings] = useCalculateAvgRating();
+  const [avgRatings, calculateAvgRatings, resetAvgRatings] =
+    useCalculateAvgRating();
   useEffect(
     function addRatingsToRows() {
       if (avgRatings.length) {
@@ -147,19 +148,28 @@ function App() {
 
   console.log("ResData", response.data);
   // console.log("head", headCells);
-  // console.log("comparisons", comparisons);
-  // console.log("comparisonvalues", comparisonValues);
   // console.log("row", rows);
+  // console.log("comparisons", comparisons);
   // console.log("col", columns);
-  // console.log("percents", percents);
-  // console.log("preferHigher", preferHigher);
+  // console.log("comparisonvalues", comparisonValues);
   // console.log("ratings", ratings);
   // console.log("avg ratings", avgRatings);
+  // console.log("percents", percents);
+  // console.log("preferHigher", preferHigher);
   console.log("displayRows", displayRows);
 
   const clearData = () => {
     setDataReady(false);
+    setResponse([]);
+    setHeadCells([]);
+    setRows([]);
+    makeComparisons([]);
     setColumns([]);
+    resetComparisonValues();
+    resetRatings();
+    resetAvgRatings([]);
+    setDisplayRows([]);
+    calculatePercents("clear");
   };
 
   return (
