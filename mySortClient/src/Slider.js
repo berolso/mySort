@@ -4,7 +4,6 @@ import Slider from "@mui/material/Slider";
 
 const min = 0;
 const max = 100;
-const defaultValue = 50;
 
 function marks(value) {
   if (value < 50) {

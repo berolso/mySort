@@ -6,6 +6,7 @@ import Input from "./Input";
 import Table from "./Table";
 import Alert from "./Alert";
 import Calibrate from "./Calibrate";
+import Spinner from "./Spinner";
 import useMakeComparisons from "./useMakeComparisons";
 import useCalculateRatings from "./useCalculateRatings";
 import useCalculateAvgRating from "./useCalculateAvgRatings";
@@ -16,6 +17,7 @@ function App() {
   const [open, setOpen] = useState(false);
   const [response, setResponse] = useState([]);
   const [dataReady, setDataReady] = useState(false);
+  const [displaySpinner, setDisplaySpinner] = useState(false);
 
   useEffect(
     function parseAPIdata() {
@@ -134,7 +136,6 @@ function App() {
             }
           }
         }
-        // setDisplayRows(ratingAddedRows);
         setDisplayRows(testarr);
         setDataReady(true);
       }
@@ -158,6 +159,7 @@ function App() {
 
   const clearData = () => {
     setDataReady(false);
+    setColumns([]);
   };
 
   return (
@@ -177,10 +179,11 @@ function App() {
           setResponse={setResponse}
           setOpen={setOpen}
           clearData={clearData}
+          setDisplaySpinner={setDisplaySpinner}
         />
       </div>
       {/* {headCells.length && rows.length && ratings.length ? ( */}
-      {dataReady ? (
+      {dataReady && columns.length ? (
         <div style={{ margin: "1%" }}>
           <Calibrate
             headCells={headCells}
@@ -199,7 +202,7 @@ function App() {
           />
         </div>
       ) : (
-        "load sheets url"
+        displaySpinner && <Spinner />
       )}
     </div>
   );

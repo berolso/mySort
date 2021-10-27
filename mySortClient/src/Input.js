@@ -17,6 +17,7 @@ export default function CustomizedInputBase({
   setResponse,
   setOpen,
   clearData,
+  setDisplaySpinner
 }) {
   const [sheetUrl, setSheetUrl] = useState("");
 
@@ -28,12 +29,14 @@ export default function CustomizedInputBase({
     evt.preventDefault();
     setOpen(false);
     clearData();
+    setDisplaySpinner(true)
     const res = await axiosPost(sheetUrl);
     // const res = await fetchPost(sheetUrl)
     // console.log(res.data)
     // const data = localStorage.mySorts
     // const res = JSON.parse(data)
     setResponse(res);
+    setDisplaySpinner(false)
     setOpen(true);
   };
 
