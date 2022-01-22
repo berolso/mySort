@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
-const path = require('path');
+const path = require("path");
+var cors = require("cors");
 
 require("dotenv").config();
 const SHEETS_API_KEY = process.env.SHEETS_API_KEY;
@@ -9,9 +10,11 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.use(express.static(path.resolve(__dirname, '../mySortClient/build')))
+app.use(express.static(path.resolve(__dirname, "../mySortClient/build")));
 
 app.use(express.json());
+
+app.use(cors());
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
@@ -42,17 +45,17 @@ app.post("/api", async (req, res) => {
       data: response.data.sheets[0].data[0].rowData,
     });
   } catch (e) {
-    console.log('*e.response.data.error*',e.response.data.error)
+    console.log("*e.response.data.error*", e.response.data.error);
     res.json({
       alertSeverity: "error",
-      message: 'Make sure url is correct and spreadsheet is viewable to public',
+      message: "Make sure url is correct and spreadsheet is viewable to public",
       // message: e.response.data.error.message,
     });
   }
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../mySortClient/build', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../mySortClient/build", "index.html"));
 });
 
 app.listen(PORT, () => {

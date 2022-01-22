@@ -3,7 +3,7 @@ import axios from "axios";
 export async function axiosPost(sheetsUrl) {
   const config = {
     method: "POST",
-    url: "/api",
+    url: "https://mysort.herokuapp.com/api",
     headers: {
       Authorization: { "Content-Type": "application/json" },
     },
